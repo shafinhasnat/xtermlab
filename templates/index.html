@@ -1,0 +1,32 @@
+<!doctype html>
+  <html>
+    <head>
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/xterm@4.11.0/css/xterm.css"
+      />
+      <script src="https://unpkg.com/xterm@4.11.0/lib/xterm.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+    </head>
+    <body>
+      <h1>Poridhi Lab</h1>
+      <div id="terminal"></div>
+      <script>
+        var term = new Terminal();
+        var socket = io.connect("/term")
+        term.open(document.getElementById('terminal'));
+        term.write('Welcome to PORIDHI lab')
+        socket.on("connect", data => {
+          console.log(data)
+        })
+        socket.on("term_output", data => {
+          term.write(data)
+        })
+        term.onData(data => {
+          console.log(data.key)
+          // term.write(data.key)
+          socket.emit("term_input", {input: data});
+        })
+      </script>
+    </body>
+  </html>
