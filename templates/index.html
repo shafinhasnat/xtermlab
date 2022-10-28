@@ -6,16 +6,23 @@
         href="https://unpkg.com/xterm@4.11.0/css/xterm.css"
       />
       <script src="https://unpkg.com/xterm@4.11.0/lib/xterm.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.5.0/lib/xterm-addon-fit.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
     </head>
     <body>
-      <h1>Poridhi Lab</h1>
+      <!-- <h1>Poridhi Lab</h1> -->
       <div id="terminal"></div>
       <script>
         var term = new Terminal();
+        const fitAddon = new FitAddon.FitAddon();
+        term.loadAddon(fitAddon);
         var socket = io.connect("/term")
         term.open(document.getElementById('terminal'));
-        term.write('Welcome to PORIDHI lab')
+        fitAddon.fit();
+        term.write('Welcome to PORIDHI lab\n')
+        
+
+        term.resize(100, 100);
         socket.on("connect", data => {
           console.log(data)
         })
