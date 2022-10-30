@@ -1,8 +1,10 @@
 FROM ubuntu:20.04
 WORKDIR /.termplugin
-RUN apt-get update && apt-get install -y python3-pip
+ENV TERM=xterm
+RUN apt-get update && apt-get install -y python3-pip && apt-get install -y docker.io
+ENV DOCKER_HOST=36.255.70.177:2375
 COPY requirements.txt .
-RUN yes | pip install -r requirements.txt
+RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 5000
 WORKDIR /
