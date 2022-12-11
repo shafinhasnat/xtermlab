@@ -1,11 +1,10 @@
 FROM ubuntu:20.04
 WORKDIR /.termplugin
-ENV TERM=xterm
-RUN apt-get update && apt-get install -y python3-pip
-ENV DOCKER_HOST=36.255.70.177:2375
+RUN apt-get -y update && apt-get install -y python3-pip && apt-get install -y redis && apt-get install -y postgresql-client
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 5000
 WORKDIR /
+ENV TERM=xterm
 CMD ["python3", "/.termplugin/app.py"]
